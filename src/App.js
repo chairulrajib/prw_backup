@@ -1,23 +1,54 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import Landing from "./pages/Landing";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import { loginAction } from "./actions/userAction";
+import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import Axios from "axios";
+const API_URL = "http://localhost:2300";
 
 function App() {
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+
+  const keepLogin = () => {
+    let getLocalStorage = JSON.parse(localStorage.getItem('prw_login'));
+    console.log('hasilnya adalah  :' ,getLocalStorage)
+    if (getLocalStorage) {
+      Axios.get(API_URL + `/user?id=${getLocalStorage.id}`)
+        .then((res) => {
+          delete res.data[0].password;
+          dispatch(loginAction(res.data[0]));
+          setLoading(false);
+          localStorage.setItem("prw_login", JSON.stringify(res.data[0]));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      setLoading(false);
+      console.log()
+    }
+  };
+
+  useEffect(() => {
+    keepLogin();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Navbar loading={loading} />
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+      <Footer />
     </div>
   );
 }
