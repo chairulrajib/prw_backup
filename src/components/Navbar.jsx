@@ -104,8 +104,8 @@ const Navbar = (props) => {
                   />
                 </MenuButton>
                 <MenuList>
-                  <MenuItem>Link 1</MenuItem>
-                  <MenuItem>Link 2</MenuItem>
+                  <MenuItem>My Booking</MenuItem>
+                  <MenuItem>Profile</MenuItem>
                   <MenuDivider />
                   <MenuItem onClick={()=>dispatch(logoutAction())}>Sign Out <AiOutlineLogout/></MenuItem>
                 </MenuList>

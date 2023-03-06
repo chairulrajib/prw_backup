@@ -21,10 +21,9 @@ function App() {
     if (getLocalStorage) {
       Axios.get(API_URL + `/user?id=${getLocalStorage.id}`)
         .then((res) => {
-          delete res.data[0].password;
-          dispatch(loginAction(res.data[0]));
+          dispatch(loginAction(res.data));
           setLoading(false);
-          localStorage.setItem("prw_login", JSON.stringify(res.data[0]));
+          localStorage.setItem("prw_login", JSON.stringify(res.data));
         })
         .catch((err) => {
           console.log(err);

@@ -18,8 +18,7 @@ import { FcGoogle } from "react-icons/fc";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
-
-const API_URL = "http://localhost:2300";
+import API_URL from "../helper";
 
 const Register = () => {
   const [username, setUserName] = useState("");
@@ -29,18 +28,19 @@ const Register = () => {
   const navigate = useNavigate()
 
   const onBtnRegis = () => {
-    Axios.post(API_URL + `/user`, {
+    Axios.post(API_URL + `/users/regis`, {
       username,
       email,
       password,
-      role: "user",
+      // role: "user",
     })
       .then((res) => {
-        alert("registration Success");
+        alert(res.data.message);
         navigate('/login')
       })
       .catch((err) => {
-        console.log(err);
+        alert(err.response.data.message);
+        navigate('/register')
       });
   };
 

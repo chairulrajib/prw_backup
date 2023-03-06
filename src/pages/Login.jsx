@@ -22,7 +22,7 @@ import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { loginAction } from "../actions/userAction";
 import { useDispatch } from "react-redux";
-const API_URL = "http://localhost:2300";
+import API_URL from "../helper";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -32,12 +32,15 @@ const Login = () => {
   const [inputType, setInputType] = useState("password");
 
   const onBtnLogin = () => {
-    Axios.get(API_URL + `/user?email=${inputEmail}&password=${inputPass}`)
+    Axios.post(API_URL + `/users/login`, {
+      email:inputEmail,
+      password:inputPass
+    })
       .then((res) => {
         console.log(res.data);
-        delete res.data[0].password;
-        dispatch(loginAction(res.data[0]));
-        localStorage.setItem('prw_login', JSON.stringify(res.data[0]));
+
+        dispatch(loginAction(res.data));
+        localStorage.setItem('prw_login', JSON.stringify(res.data));
         navigate("/", { replace: true });
       })
       .catch((err) => {
