@@ -1,4 +1,4 @@
-import "./App.css";
+ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
@@ -9,28 +9,31 @@ import { loginAction } from "./actions/userAction";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import Axios from "axios";
-const API_URL = "http://localhost:2300";
+const API_URL = "http://localhost:2305";
 
 function App() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
-  const keepLogin = () => {
-    let getLocalStorage = JSON.parse(localStorage.getItem('prw_login'));
-    console.log('hasilnya adalah  :' ,getLocalStorage)
-    if (getLocalStorage) {
-      Axios.get(API_URL + `/user?id=${getLocalStorage.id}`)
-        .then((res) => {
-          dispatch(loginAction(res.data));
-          setLoading(false);
-          localStorage.setItem("prw_login", JSON.stringify(res.data));
+  const keepLogin = async() => {
+    try {
+      let getLocalStorage = JSON.parse(localStorage.getItem('prw_login'));
+      console.log('hasilnya adalah  :' ,getLocalStorage)
+      if (getLocalStorage.iduser) {
+        let res = await Axios.post(API_URL + `/users/keep`, {
+           id :getLocalStorage.iduser
         })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
+          delete res.data.password
+            dispatch(loginAction(res.data));
+            setLoading(false);
+            localStorage.setItem("prw_login", JSON.stringify(res.data));
+      } else {
+        setLoading(false);
+        console.log()
+      }
+    } catch(err){
+      console.log(err)
       setLoading(false);
-      console.log()
     }
   };
 

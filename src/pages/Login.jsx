@@ -32,19 +32,25 @@ const Login = () => {
   const [inputType, setInputType] = useState("password");
 
   const onBtnLogin = () => {
+    console.log()
     Axios.post(API_URL + `/users/login`, {
       email:inputEmail,
       password:inputPass
     })
       .then((res) => {
         console.log(res.data);
-
-        dispatch(loginAction(res.data));
-        localStorage.setItem('prw_login', JSON.stringify(res.data));
+        dispatch(loginAction(res.data)); // menjalankan fungsi action
+        localStorage.setItem('prw_login', res.data.token);
         navigate("/", { replace: true });
+         
       })
       .catch((err) => {
-        alert(err);
+        console.log(err)
+        if(!err.response.data.success){
+
+          alert(err.response.data.message);
+        }
+        console.log("check error", err)
       });
   };
 

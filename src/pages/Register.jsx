@@ -24,6 +24,7 @@ const Register = () => {
   const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
   const [inputType, setInputType] = useState("password");
   const navigate = useNavigate()
 
@@ -31,6 +32,7 @@ const Register = () => {
     Axios.post(API_URL + `/users/regis`, {
       username,
       email,
+      phone,
       password,
       // role: "user",
     })
@@ -40,7 +42,7 @@ const Register = () => {
       })
       .catch((err) => {
         alert(err.response.data.message);
-        navigate('/register')
+        window.location.reload()
       });
   };
 
@@ -112,7 +114,7 @@ const Register = () => {
         >
           <Stack spacing="6">
             <Stack spacing="5">
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel htmlFor="nama">Nama</FormLabel>
                 <Input
                   id="nama"
@@ -120,15 +122,23 @@ const Register = () => {
                   onChange={(element) => setUserName(element.target.value)}
                 />
               </FormControl>
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <Input
                   id="email"
-                  type="email"
+                  type='email'
                   onChange={(element) => setEmail(element.target.value)}
                 />
               </FormControl>
-              <FormControl>
+              <FormControl isRequired>
+                <FormLabel htmlFor="phone">Phone</FormLabel>
+                <Input
+                  id="phone"
+                  type="tel"
+                  onChange={(element) => setPhone(element.target.value)}
+                />
+              </FormControl>
+              <FormControl isRequired>
                 <FormLabel htmlFor="password">Password</FormLabel>
                 <InputGroup>
                   <Input
