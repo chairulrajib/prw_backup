@@ -17,23 +17,25 @@ function App() {
 
   const keepLogin = async() => {
     try {
-      let getLocalStorage = JSON.parse(localStorage.getItem('prw_login'));
+      let getLocalStorage = localStorage.getItem('prw_login');
       console.log('hasilnya adalah  :' ,getLocalStorage)
-      if (getLocalStorage.iduser) {
-        let res = await Axios.post(API_URL + `/users/keep`, {
-           id :getLocalStorage.iduser
+      if (getLocalStorage) {
+        let res = await Axios.get(API_URL + `/users/keep`,{
+          headers:{
+            "Authorization" :`Bearer ${getLocalStorage}`
+          }
         })
-          delete res.data.password
+          delete res.data.password 
             dispatch(loginAction(res.data));
             setLoading(false);
-            localStorage.setItem("prw_login", JSON.stringify(res.data));
+            localStorage.setItem("prw_login", res.data.token);
       } else {
         setLoading(false);
         console.log()
       }
     } catch(err){
       console.log(err)
-      setLoading(false);
+      setLoading(false);// loading dimatikan saat mendapatkan response
     }
   };
 
