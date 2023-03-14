@@ -22,7 +22,9 @@ import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { loginAction } from "../actions/userAction";
 import { useDispatch } from "react-redux";
-import API_URL from "../helper";
+//import API_URL from "../helper";
+const API_URL = process.env.REACT_APP_API_BASE_URL
+
 
 const Login = () => {
   const navigate = useNavigate();

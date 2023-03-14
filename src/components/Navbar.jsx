@@ -18,11 +18,8 @@ import {
   Spinner
 } from "@chakra-ui/react";
 import { useSelector, useDispatch } from "react-redux";
-
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-
 import {AiOutlineLogout} from 'react-icons/ai'
-
 import { logoutAction } from "../actions/userAction";
 
 const Links = [

@@ -18,7 +18,9 @@ import { FcGoogle } from "react-icons/fc";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
-import API_URL from "../helper";
+//import API_URL from "../helper";
+const API_URL = process.env.REACT_APP_API_BASE_URL
+
 
 const Register = () => {
   const [username, setUserName] = useState("");
@@ -42,7 +44,7 @@ const Register = () => {
       })
       .catch((err) => {
         alert(err.response.data.message);
-        window.location.reload()
+        // window.location.reload()
       });
   };
 
