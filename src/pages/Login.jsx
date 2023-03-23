@@ -34,15 +34,18 @@ const Login = () => {
   const [inputType, setInputType] = useState("password");
 
   const onBtnLogin = () => {
-    console.log()
+   
     Axios.post(API_URL + `/users/login`, {
       email:inputEmail,
       password:inputPass
     })
       .then((res) => {
-        console.log(res.data);
+        // console.log(`res login data ${res.data}`);
         dispatch(loginAction(res.data)); // menjalankan fungsi action
         localStorage.setItem('prw_login', res.data.token);
+        if(res.data.isTenant===true) {
+          navigate("/dashboard", {replace:true})
+        }
         navigate("/", { replace: true });
          
       })
@@ -65,7 +68,7 @@ const Login = () => {
   };
   return (
     <Container
-      maxW="lg"
+      maxW="md"
       py={{
         base: "12",
         md: "24",
@@ -86,8 +89,8 @@ const Login = () => {
           >
             <Heading
               size={{
-                base: "xs",
-                md: "sm",
+                base: "lg",
+                md: "lg",
               }}
             >
               Log in to your account
@@ -156,7 +159,7 @@ const Login = () => {
             </Stack>
             <HStack justify="space-between">
               <Checkbox defaultChecked>Remember me</Checkbox>
-              <Button variant="link" colorScheme="blue" size="sm">
+              <Button variant="link" colorScheme="blue" size="sm" onClick={() => navigate("/resetpass")}>
                 Forgot password?
               </Button>
             </HStack>
